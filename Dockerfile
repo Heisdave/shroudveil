@@ -29,9 +29,13 @@ RUN mkdir -p /opt/bitcoin \
 
 # LNbits 1.7.1, with the bitstring pin the spike proved
 # (bolt11 needs bitstring<4; the conflict only affects the Core Lightning
-# backend, which this design does not use).
+# backend, which this design does not use). Two steps on purpose: a single
+# resolve fails because pyln-proto (a transitive dep) demands bitstring>=4,
+# while the spike's working venv carries pyln-proto alongside bitstring
+# 3.1.9. Install LNbits first, then force the pin, exactly as proven.
 RUN python3 -m venv /opt/lnbits-venv \
- && /opt/lnbits-venv/bin/pip install --no-cache-dir "lnbits==1.7.1" "bitstring==3.1.9"
+ && /opt/lnbits-venv/bin/pip install --no-cache-dir "lnbits==1.7.1" \
+ && /opt/lnbits-venv/bin/pip install --no-cache-dir "bitstring==3.1.9"
 
 WORKDIR /app
 COPY package.json package-lock.json ./
