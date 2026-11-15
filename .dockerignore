@@ -1,0 +1,9 @@
+.git
+.env
+data
+lnbits-data
+regtest-data
+tools
+node_modules
+dist
+*.log
