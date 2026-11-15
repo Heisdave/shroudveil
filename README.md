@@ -33,13 +33,13 @@ That builds the app, generates demo keys, starts Bitcoin Core on regtest and the
 - Normal PIN: `2468`
 - Duress PIN: `9753`
 
-## Hosted demo (Render): prepared, pending repo publication
+## Hosted demo (Render): live
 
-The hosted build is ready and proven. The repo carries a `Dockerfile` and a start process (`scripts/render-start.sh`) that bring up the full stack in one free-tier container: Bitcoin Core on regtest, LNbits with FakeWallet (fresh install completed automatically, demo wallets created and funded on boot), and the app on the port Render assigns. The status screen in the app has demo controls (fund the vault, arm the sweep, mine blocks), so the two stories below can be run from the page itself.
+**Live demo: https://shroudveil.onrender.com** (normal PIN `2468`, duress PIN `9753`)
 
-That exact start process was run from a cold start during Phase 2 and the duress story was driven end to end through the API: check in accepted by 3 of 4 relays, vault funded with 0.5 test BTC, sweep armed, duress PIN opened the decoy at 5,000 sats while the sweep fired, and after mining past the locktime the recovery address held exactly 49,999,500 sats.
+The repo carries a `Dockerfile` and a start process (`scripts/render-start.sh`) that bring up the full stack in one free-tier container: Bitcoin Core on regtest, LNbits with FakeWallet (fresh install completed automatically, demo wallets created and funded on boot), and the app on the port Render assigns. The status screen in the app has demo controls (fund the vault, arm the sweep, mine blocks), so the two stories below can be run from the page itself. Every boot is a fresh demo: new keys, new wallets, funded on boot, because the free tier disk is ephemeral.
 
-One step remains, and it is not a code step: Render validates the GitHub repo when a service is created, and this repo is not public yet. The create call was attempted on 15 Nov 2026 and Render rejected it with "repository URL is invalid or unfetchable" for that reason alone. The moment the repo is public, one API call creates the service (name `shroudveil`, docker runtime, free plan, Frankfurt), a manual deploy follows, and the demo will live at https://shroudveil.onrender.com. Until then, the local one-command run above is the judge path, and it is the same code and the same start process the container runs.
+The hosted demo was verified end to end on 15 Nov 2026, through the public URL, exactly as a judge would run it: check in accepted by 3 of 4 relays, vault funded with 0.5 test BTC, sweep armed, duress PIN opened the decoy at 5,000 sats while the sweep fired, and after mining past the locktime the recovery address held exactly 49,999,500 sats (sweep tx `ce8eadad6ef3fd5ed6c9eb9981a386aa6cd3149730c7deec83a302b9f168d4d0` on the hosted regtest chain). The same start process had already passed a cold-start proof locally during Phase 2. The local one-command run above remains a judge path too, and it is the same code and the same start process the container runs.
 
 ## Prove the two stories
 
